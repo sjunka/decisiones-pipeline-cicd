@@ -52,6 +52,8 @@ export default function Panel({ ev, missing, onJump, onSend }) {
         </div>
       </section>
 
+      {onSend && <SendButton onClick={onSend} ready={!missing.length} />}
+
       {missing.length > 0 && (
         <Card title={`Te faltan ${missing.length}`} aside={<span className="text-[13px] text-muted">toca para ir</span>}>
           <div className="flex flex-wrap gap-1.5">
@@ -105,7 +107,6 @@ export default function Panel({ ev, missing, onJump, onSend }) {
         )}
       </Card>
 
-      {onSend && <SendButton onClick={onSend} ready={!missing.length} />}
     </div>
   );
 }
