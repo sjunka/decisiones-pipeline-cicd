@@ -1,4 +1,3 @@
-import { SendButton } from "./App.jsx";
 import { REQS } from "./data.js";
 
 function Ring({ value, total }) {
@@ -105,7 +104,10 @@ export default function Panel({ ev, missing, onJump, onSend }) {
         )}
       </Card>
 
-      {onSend && <SendButton onClick={onSend} ready={!missing.length} />}
+      <button type="button" onClick={onSend}
+        className="min-h-12 rounded-full bg-action px-6 text-[17px] font-medium text-white transition hover:opacity-90 active:scale-[.98]">
+        Enviar mis respuestas
+      </button>
     </div>
   );
 }
