@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* Tokens de DESIGN-apple.md. Un solo color interactivo (Action Blue), sin sombras en la interfaz. */
+:root {
+  color-scheme: light;
+  --c-canvas: #f5f5f7;
+  --c-surface: #ffffff;
+  --c-surface-2: #f5f5f7;
+  --c-ink: #1d1d1f;
+  --c-muted: #6e6e73;
+  --c-hairline: #e0e0e0;
+  --c-primary: #0066cc;
+  --c-action: #0066cc;
+  --c-primary-weak: #e8f1fb;
+  --c-ok: #1d7d46;
+  --c-ok-weak: #e6f4ec;
+  --c-warn: #8a5300;
+  --c-warn-weak: #fdf2e0;
+  --c-bad: #c0271d;
+  --c-bad-weak: #fdecea;
+  --c-plus: #6b3fc4;
+  --c-plus-weak: #f1ebfc;
+  --c-frost: rgb(245 245 247 / .8);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --c-canvas: #000000;
+    --c-surface: #1c1c1e;
+    --c-surface-2: #272729;
+    --c-ink: #f5f5f7;
+    --c-muted: #a1a1a6;
+    --c-hairline: #38383a;
+    --c-primary: #2997ff;
+    --c-action: #0071e3;
+    --c-primary-weak: #0d2a47;
+    --c-ok: #4cd383;
+    --c-ok-weak: #11281b;
+    --c-warn: #ffb340;
+    --c-warn-weak: #2e2210;
+    --c-bad: #ff6961;
+    --c-bad-weak: #3a1715;
+    --c-plus: #bf9bff;
+    --c-plus-weak: #251b3a;
+    --c-frost: rgb(0 0 0 / .72);
+  }
+}
+
+@theme inline {
+  --font-sans: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-hairline: var(--c-hairline);
+  --color-primary: var(--c-primary);
+  --color-action: var(--c-action);
+  --color-primary-weak: var(--c-primary-weak);
+  --color-ok: var(--c-ok);
+  --color-ok-weak: var(--c-ok-weak);
+  --color-warn: var(--c-warn);
+  --color-warn-weak: var(--c-warn-weak);
+  --color-bad: var(--c-bad);
+  --color-bad-weak: var(--c-bad-weak);
+  --color-plus: var(--c-plus);
+  --color-plus-weak: var(--c-plus-weak);
+  --color-frost: var(--c-frost);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--c-canvas); color: var(--c-ink); font-family: var(--font-sans); font-size: 17px; line-height: 1.47; letter-spacing: -0.374px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .86em; background: var(--c-surface-2); padding: 1px 5px; border-radius: 5px; overflow-wrap: anywhere; letter-spacing: 0; }
+:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+
+dialog { color: var(--c-ink); }
+dialog::backdrop { background: rgb(0 0 0 / .45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+dialog[open] { animation: rise .28s cubic-bezier(.2,.8,.2,1); }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes pop { 0% { transform: scale(.6); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+.pop { animation: pop .3s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, dialog[open] { animation: none !important; transition: none !important; }
+}
