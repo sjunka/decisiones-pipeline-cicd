@@ -101,6 +101,17 @@ function Done({ open, onClose, values }) {
   );
 }
 
+// Único botón de enviar: fijo abajo en celular y en la columna fija en escritorio.
+export function SendButton({ onClick, ready, compact }) {
+  return (
+    <button type="button" onClick={onClick}
+      className={`flex min-h-12 flex-none items-center justify-center gap-2 rounded-full bg-action px-6 text-[17px] font-semibold text-white transition hover:opacity-90 active:scale-[.98] ${compact ? "" : "w-full"} ${ready ? "ring-4 ring-ok/40" : ""}`}>
+      <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12l16-8-6 16-2.5-6.5z" /></svg>
+      {compact ? "Enviar" : "Enviar mis respuestas"}
+    </button>
+  );
+}
+
 function Page({ done, setDone }) {
   const { values, setValues, setFieldValue, submitCount, errors, submitForm } = useFormikContext();
   const [help, setHelp] = useState(false);
@@ -190,10 +201,6 @@ function Page({ done, setDone }) {
               ))}
             </section>
           ))}
-          <button type="submit" className="mt-2 min-h-12 w-full rounded-full bg-action px-6 text-[17px] text-white transition hover:opacity-90 active:scale-[.98] sm:w-auto">
-            Enviar mis respuestas
-          </button>
-          {showErr && missing.length > 0 && <p className="mt-2 text-[15px] text-bad">Te faltan {missing.length} preguntas.</p>}
         </Form>
 
         <aside className="hidden lg:sticky lg:top-[68px] lg:block lg:max-h-[calc(100dvh-84px)] lg:overflow-y-auto lg:overscroll-contain" aria-label="Estado">
@@ -203,20 +210,22 @@ function Page({ done, setDone }) {
 
       {/* Celular: barra fija que acompaña al bajar y abre el estado completo. */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-frost pb-[env(safe-area-inset-bottom)] backdrop-blur-xl backdrop-saturate-150 lg:hidden">
-        <button type="button" onClick={() => setSheet(true)} className="mx-auto flex min-h-[60px] w-full max-w-[1200px] items-center gap-3 px-4 text-left">
-          <span className="min-w-0 flex-1">
-            <span className="block text-[15px] font-semibold">
-              Mínimos {Object.values(ev.status).filter((s) => s === "ok").length}/{Object.keys(ev.status).length}
-              {ev.warnings.length > 0 && <span className="ml-2 rounded-full bg-warn-weak px-2 py-0.5 text-[13px] text-warn">{ev.warnings.length} alerta{ev.warnings.length > 1 ? "s" : ""}</span>}
+        <div className="mx-auto flex min-h-[68px] w-full max-w-[1200px] items-center gap-3 px-4">
+          <button type="button" onClick={() => setSheet(true)} className="flex min-h-12 min-w-0 flex-1 items-center gap-2 text-left" aria-label="Ver estado del formulario">
+            <span className="min-w-0 flex-1">
+              <span className="block text-[15px] font-semibold">
+                Mínimos {Object.values(ev.status).filter((s) => s === "ok").length}/{Object.keys(ev.status).length}
+                {ev.warnings.length > 0 && <span className="ml-2 rounded-full bg-warn-weak px-2 py-0.5 text-[13px] text-warn">{ev.warnings.length} alerta{ev.warnings.length > 1 ? "s" : ""}</span>}
+              </span>
+              <span className="block text-[13px] text-primary">{missing.length ? `Te faltan ${missing.length} · ver estado ›` : "Todo respondido · ver estado ›"}</span>
             </span>
-            <span className="block text-[13px] text-muted">{missing.length ? `Te faltan ${missing.length} de ${ev.total}` : "Todo respondido"}</span>
-          </span>
-          <span className="rounded-full bg-action px-4 py-2 text-[15px] text-white">Ver estado</span>
-        </button>
+          </button>
+          <SendButton onClick={send} ready={!missing.length} compact />
+        </div>
       </div>
 
       <Sheet open={sheet} onClose={() => setSheet(false)} title="Estado">
-        <Panel ev={ev} missing={missing} onJump={jumpFromSheet} onSend={send} />
+        <Panel ev={ev} missing={missing} onJump={jumpFromSheet} />
       </Sheet>
       <HelpModal open={help} onClose={() => setHelp(false)} />
       <Done open={done} onClose={() => setDone(false)} values={values} />
